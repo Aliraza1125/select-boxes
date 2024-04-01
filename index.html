@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Select Boxes</title>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      select {
+        margin: 5px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 300px;
+      }
+      select:hover {
+        background-color: #e3e3e3;
+      }
+      select:focus {
+        border-color: #007bff;
+        background-color: #fff;
+      }
+      option {
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+      option:hover {
+        background-color: #e3e3e3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Select Boxes</h1>
+      <select id="countries" onchange="populateStates()">
+        <option value="">Select Country</option>
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        <option value="Australia">Australia</option>
+        <option value="Germany">Germany</option>
+        <option value="India">India</option>
+        <option value="Pakistan">Pakistan</option>
+      </select>
+      <select id="states" onchange="populateCities()">
+        <option value="">Select State</option>
+      </select>
+      <select id="cities">
+        <option value="">Select City</option>
+      </select>
+    </div>
+
+    <script>
+      const countryStateMap = {
+        USA: ["California", "New York", "Texas"],
+        Canada: ["Ontario", "Quebec", "British Columbia"],
+        Australia: ["New South Wales", "Queensland", "Victoria"],
+        Germany: ["Bavaria", "North Rhine-Westphalia", "Baden-Württemberg"],
+        India: ["Maharashtra", "Uttar Pradesh", "Karnataka"],
+        Pakistan: ["Punjab", "Sindh", "Khyber Pakhtunkhwa"],
+      };
+
+      const stateCityMap = {
+        California: ["Los Angeles", "San Francisco", "San Diego"],
+        "New York": ["New York City", "Buffalo", "Rochester"],
+        Texas: ["Houston", "Austin", "Dallas"],
+        Ontario: ["Toronto", "Ottawa", "Mississauga"],
+        Quebec: ["Montreal", "Quebec City", "Laval"],
+        "British Columbia": ["Vancouver", "Victoria", "Burnaby"],
+        "New South Wales": ["Sydney", "Newcastle", "Wollongong"],
+        Queensland: ["Brisbane", "Gold Coast", "Cairns"],
+        Victoria: ["Melbourne", "Geelong", "Ballarat"],
+        Bavaria: ["Munich", "Nuremberg", "Augsburg"],
+        "North Rhine-Westphalia": ["Cologne", "Düsseldorf", "Dortmund"],
+        "Baden-Württemberg": ["Stuttgart", "Karlsruhe", "Freiburg"],
+        Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+        "Uttar Pradesh": ["Lucknow", "Kanpur", "Agra"],
+        Karnataka: ["Bangalore", "Mysore", "Hubli"],
+        Punjab: ["Lahore", "Rawalpindi", "Faisalabad"],
+        Sindh: ["Karachi", "Hyderabad", "Sukkur"],
+        "Khyber Pakhtunkhwa": ["Peshawar", "Abbottabad", "Mardan"],
+      };
+
+      function populateStates() {
+        const countrySelect = document.getElementById("countries");
+        const stateSelect = document.getElementById("states");
+        const selectedCountry = countrySelect.value;
+
+        stateSelect.innerHTML = "";
+
+        if (selectedCountry) {
+          const defaultOption = document.createElement("option");
+          defaultOption.textContent = "Select States for " + selectedCountry;
+          stateSelect.appendChild(defaultOption);
+
+          const states = countryStateMap[selectedCountry];
+          states.forEach((state) => {
+            const option = document.createElement("option");
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+          });
+        } else {
+          const defaultOption = document.createElement("option");
+          defaultOption.textContent = "Select State";
+          stateSelect.appendChild(defaultOption);
+        }
+      }
+
+      function populateCities() {
+        const stateSelect = document.getElementById("states");
+        const citySelect = document.getElementById("cities");
+        const selectedState = stateSelect.value;
+
+        citySelect.innerHTML = "";
+
+        if (selectedState) {
+          const defaultOption = document.createElement("option");
+          defaultOption.textContent = "Select City for " + selectedState;
+          citySelect.appendChild(defaultOption);
+
+          const cities = stateCityMap[selectedState];
+          cities.forEach((city) => {
+            const option = document.createElement("option");
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+          });
+        } else {
+          const defaultOption = document.createElement("option");
+          defaultOption.textContent = "Select City";
+          citySelect.appendChild(defaultOption);
+        }
+      }
+    </script>
+  </body>
+</html>
